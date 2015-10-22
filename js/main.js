@@ -115,6 +115,10 @@ function init() {
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
+  //Add the stereo effect
+  effect = new THREE.StereoEffect(renderer);
+  effect.setSize(window.innerWidth, window.innerHeight);
+
   container.appendChild( renderer.domElement );
 
   document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -131,6 +135,7 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
 
   renderer.setSize( window.innerWidth, window.innerHeight );
+  effect.setSize( window.innerWidth, window.innerHeight );
 }
 
 function onDocumentMouseMove( event ) {
@@ -179,7 +184,8 @@ function render() {
     h = ( 360 * ( color[0] + time ) % 360 ) / 360;
     materials[i].color.setHSL( h, color[1], color[2] );
   }
-  renderer.render( scene, camera );
+  // renderer.render( scene, camera );
+  effect.render(scene, camera);
 
 }
 
